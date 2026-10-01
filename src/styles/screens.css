@@ -1,0 +1,361 @@
+/* ─────────────────────────────────────────────────────────────
+   Ekrany - układ i typografia widoków.
+   Komponenty (dz-*) przychodzą z handoffu i są nietykalne;
+   tutaj mieszka tylko to, co je spina w ekran.
+
+   Zasada czerwieni: --mark WYŁĄCZNIE korekty, ból,
+   bezpieczeństwo. Błąd zapisu jest stanem technicznym, nie
+   naganą - dostaje linię, nie kolor.
+   ───────────────────────────────────────────────────────────── */
+
+/* ── kanwa ─────────────────────────────────────────────────── */
+/* Górny margines bezpieczny liczony przez zmienną, a nie prosto z env(): po dodaniu
+   aplikacji do ekranu głównego pasek stanu należy do niej, więc nagłówek wchodziłby
+   pod Dynamic Island (ok. 59 px, na modelach z notchem ok. 47 px). W przeglądarce
+   env() daje zero i nic się nie zmienia; zmienna pozwala też podstawić wartość w teście. */
+:root{ --sat: env(safe-area-inset-top, 0px); }
+
+.sy-screen{
+  width:100%; max-width:28rem; margin-inline:auto;
+  padding:calc(var(--sat) + 18px) 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
+}
+.sy-screen--center{
+  min-height:100dvh;
+  display:flex; flex-direction:column; justify-content:center;
+  padding-inline:24px;
+}
+
+.sy-head{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; margin-bottom:26px;
+}
+
+.sy-title{
+  margin:0; font-family:var(--font-display); font-weight:600;
+  font-size:22px; line-height:1.15; letter-spacing:-.02em;
+}
+.sy-title--entry{ font-size:32px; letter-spacing:-.03em; }
+.sy-lead{ margin:6px 0 26px; color:var(--ink-2); }
+
+/* etykieta sekcji i pola - ten sam głos, mono wersalikami */
+.sy-label{
+  display:block; font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--ink-3); margin-bottom:7px;
+}
+
+/* ── panel danych ──────────────────────────────────────────── */
+.sy-panel{
+  background:var(--panel); border:1px solid var(--rule);
+  border-radius:var(--radius); padding:16px 18px;
+}
+.sy-panel + .sy-section{ margin-top:26px; }
+
+.sy-section{ margin-top:26px; }
+.sy-section__title{
+  display:block; font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--ink-3); margin:0 0 10px;
+}
+
+/* ── lista planu ───────────────────────────────────────────── */
+.sy-list{ list-style:none; margin:0; padding:0; }
+.sy-list__row{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:12px; padding:13px 0; border-top:1px solid var(--rule);
+}
+.sy-list__name{ font-family:var(--font-display); font-size:17px; }
+.sy-list__note{ color:var(--ink-3); font-size:14px; }
+.sy-list__meta{
+  font-family:var(--font-mono); font-size:13px;
+  font-variant-numeric:tabular-nums; color:var(--ink-2); white-space:nowrap;
+}
+
+/* ── proza pod danymi ──────────────────────────────────────── */
+.sy-note{
+  margin:22px 0 0; padding-top:16px; border-top:1px solid var(--rule);
+  max-width:var(--measure, 34em); color:var(--ink-2); font-size:15px;
+}
+.sy-nowrap{ white-space:nowrap; }
+
+/* ── formularz ─────────────────────────────────────────────── */
+.sy-field{ display:block; margin-bottom:16px; }
+.sy-input{
+  width:100%; min-height:var(--tap-min); padding:10px 12px;
+  background:var(--panel); border:1px solid var(--rule);
+  border-radius:var(--radius); color:var(--ink);
+}
+.sy-btn{
+  width:100%; min-height:var(--tap-step); margin-top:16px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--ink); color:var(--on-ink);
+  border:0; border-radius:var(--radius);
+  font-family:var(--font-display); font-size:17px; cursor:pointer;
+}
+.sy-btn:disabled{ opacity:.62; cursor:default; }
+.sy-btn--ghost{
+  background:none; color:var(--ink);
+  border:1px solid var(--rule);
+}
+
+/* ── ekran sesji ───────────────────────────────────────────────
+   Pełny ekran, bez nawigacji: w trakcie serii nie ma dokąd iść.
+   Dolna trzecia należy do kciuka.                                */
+.sy-session{
+  min-height:100dvh;
+  display:flex; flex-direction:column;
+  max-width:28rem; margin-inline:auto;
+  padding:var(--sat) 20px calc(env(safe-area-inset-bottom, 0px) + 14px);
+}
+.sy-session__top{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; min-height:52px;
+}
+.sy-session__where{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-2);
+}
+.sy-session__exit{
+  width:var(--tap-min); height:var(--tap-min); flex:none; margin-right:-10px;
+  background:none; border:0; color:var(--ink-2);
+  font-family:var(--font-mono); font-size:17px; cursor:pointer;
+}
+.sy-session__body{ flex:1; padding-top:14px; }
+
+.sy-exercise{
+  display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+  width:100%; padding:0; margin:0 0 4px;
+  background:none; border:0; text-align:left; cursor:pointer;
+  font-family:var(--font-display); font-weight:600;
+  font-size:22px; line-height:1.2; letter-spacing:-.02em; color:var(--ink);
+}
+.sy-exercise__switch{
+  flex:none; font-family:var(--font-mono); font-size:11px;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3);
+}
+.sy-target{
+  display:flex; align-items:center; flex-wrap:wrap; gap:2px;
+  margin:0 0 16px;
+  font-family:var(--font-mono); font-size:13px; color:var(--ink-2);
+}
+
+.sy-last{
+  background:var(--panel); border:1px solid var(--rule);
+  border-radius:var(--radius); padding:12px 14px; margin-bottom:18px;
+}
+.sy-last__label{
+  display:block; font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--ink-3); margin-bottom:5px;
+}
+.sy-last__value{
+  margin:0; font-family:var(--font-mono); font-size:15px;
+  font-variant-numeric:tabular-nums; color:var(--ink);
+}
+
+/* Trzy steppery w rzędzie nie mieszczą się na 360 px: same przyciski +/− to
+   2 × 56 px, a na kolumnę zostaje ~100 px - pole z liczbą ściskało się do zera
+   i wartości nie było widać. Ciężar dostaje własny rząd, powtórzenia i RIR
+   dzielą drugi. */
+.sy-steppers{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.sy-steppers > :first-child{ grid-column:1 / -1; }
+.sy-stepper__input{ min-width:2ch; }
+
+.sy-save{
+  width:100%; min-height:var(--tap-primary); margin-top:18px;
+  background:var(--ink); color:var(--on-ink); border:0; border-radius:var(--radius);
+  font-family:var(--font-display); font-weight:600; font-size:18px;
+  letter-spacing:.01em; cursor:pointer;
+}
+.sy-save:disabled{ opacity:.6; }
+
+.sy-logged{
+  display:flex; flex-wrap:wrap; gap:8px;
+  list-style:none; margin:16px 0 0; padding:0;
+}
+.sy-logged__item{
+  min-height:var(--tap-min); padding:0 12px;
+  display:flex; align-items:center; gap:6px;
+  background:none; border:1px solid var(--rule); border-radius:var(--radius);
+  font-family:var(--font-mono); font-size:12.5px;
+  font-variant-numeric:tabular-nums; color:var(--ink-2); cursor:pointer;
+}
+.sy-logged__item[aria-current="true"]{ border-color:var(--ink); color:var(--ink); }
+
+.sy-session__foot{
+  display:flex; gap:10px; padding-top:16px; border-top:1px solid var(--rule);
+}
+.sy-session__foot .sy-btn{ margin-top:0; }
+
+.sy-hint{
+  margin:16px 0 0; padding:12px 14px;
+  background:var(--panel); border-left:3px solid var(--stamp);
+  color:var(--ink-2); font-size:15px;
+}
+
+/* ── wybór z listy (plany jeśli-to, opcje) ─────────────────── */
+.sy-choice{
+  display:flex; align-items:flex-start; gap:10px;
+  width:100%; min-height:var(--tap-min); padding:12px 0;
+  background:none; border:0; border-top:1px solid var(--rule);
+  text-align:left; color:var(--ink-2); font-size:15px; line-height:1.45;
+  cursor:pointer;
+}
+.sy-choice[aria-pressed="true"]{ color:var(--ink); }
+.sy-choice__mark{
+  flex:none; width:22px; height:22px; margin-top:2px;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--rule); border-radius:var(--radius);
+  font-family:var(--font-mono); font-size:12px; color:var(--stamp);
+}
+.sy-choice[aria-pressed="true"] .sy-choice__mark{ border-color:var(--stamp); }
+
+/* ── karta planu na porażkę (R6) ───────────────────────────── */
+.sy-card{
+  border:1px solid var(--rule); background:var(--panel);
+  border-radius:var(--radius); padding:14px 16px; margin-bottom:22px;
+}
+/* dwa pominięcia z rzędu: mocniejsza rama, ale nadal bez czerwieni (R1) */
+.sy-card--firm{ border-color:var(--ink); border-left-width:3px; }
+.sy-card__head{
+  display:block; margin-bottom:8px; color:var(--ink); font-size:15.5px;
+}
+.sy-card__plan{
+  margin:0; padding-left:12px; border-left:2px solid var(--stamp);
+  color:var(--ink-2); font-size:15px; line-height:1.5;
+}
+.sy-card .sy-btn{ margin-top:14px; }
+
+/* ── moduły odblokowywane etapami (R5) ─────────────────────── */
+.sy-module{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  width:100%; min-height:var(--tap-min); padding:12px 0;
+  background:none; border:0; border-top:1px solid var(--rule);
+  text-align:left; cursor:pointer;
+  font-family:var(--font-display); font-size:16px; color:var(--ink);
+}
+.sy-module--locked{ color:var(--ink-3); font-family:var(--font-body); font-size:15px; }
+.sy-module__note{
+  flex:none; font-family:var(--font-mono); font-size:10.5px;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3);
+}
+
+/* ── nawigacja dolna ───────────────────────────────────────── */
+.sy-nav{
+  position:sticky; bottom:0; z-index:20;
+  display:flex; background:var(--paper);
+  border-top:1px solid var(--rule);
+  padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+.sy-nav__item{
+  flex:1; min-height:var(--tap-step);
+  display:flex; align-items:center; justify-content:center;
+  background:none; border:0; border-top:2px solid transparent;
+  margin-top:-1px; color:var(--ink-3); cursor:pointer;
+  font-family:var(--font-mono); font-size:11.5px;
+  letter-spacing:.09em; text-transform:uppercase;
+}
+.sy-nav__item[aria-current="page"]{ color:var(--ink); border-top-color:var(--stamp); }
+
+.sy-with-nav{ padding-bottom:8px; }
+
+/* Stan techniczny, nie nagana: linia po lewej zamiast czerwieni. */
+.sy-alert{
+  margin:14px 0 0; padding:2px 0 2px 14px;
+  border-left:3px solid var(--ink-3);
+  color:var(--ink-2); font-size:15px;
+}
+
+/* ── moduły pomiaru (faza 4) ───────────────────────────────── */
+/* Karta modułu: ta sama linia co .sy-module, ale mieści wejście i podsumowanie. */
+.sy-mod{ border-top:1px solid var(--rule); padding:14px 0 4px; }
+.sy-mod__head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+}
+.sy-mod__name{ font-family:var(--font-display); font-size:16px; color:var(--ink); }
+.sy-mod__note{
+  flex:none; font-family:var(--font-mono); font-size:10.5px;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3);
+}
+.sy-mod__row{ display:flex; align-items:center; gap:10px; margin-top:10px; flex-wrap:wrap; }
+.sy-mod__row .sy-input{ flex:1 1 96px; min-width:0; }
+
+/* Dana wejściowa przy liczbie głównej - mała i szara, żeby nie konkurowała ze średnią (R4). */
+.sy-sub{ margin-top:2px; color:var(--ink-3); font-size:14px; }
+
+/* Kafelki białka: jedno stuknięcie = jedna porcja. */
+.sy-tiles{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-top:12px; }
+.sy-tile{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  min-height:var(--tap-min); padding:10px 12px;
+  border:1px solid var(--rule); border-radius:var(--radius); background:var(--panel);
+  font-family:var(--font-body); font-size:14px; color:var(--ink); text-align:left; cursor:pointer;
+}
+.sy-tile__g{ flex:none; font-family:var(--font-mono); font-size:13px; color:var(--ink-2); }
+
+/* Pasek postępu dnia. Po przekroczeniu celu po prostu pełny - bez fanfar. */
+.sy-bar{ height:8px; margin-top:10px; background:var(--track); border-radius:999px; overflow:hidden; }
+.sy-bar__fill{ height:100%; background:var(--stamp); }
+
+/* Ocena 1-5 i przełączniki: ten sam cel dotykowy co reszta. */
+.sy-scale{ display:flex; gap:8px; margin-top:10px; }
+.sy-scale__item{
+  flex:1 1 0; min-height:var(--tap-min); padding:8px 0;
+  border:1px solid var(--rule); border-radius:var(--radius); background:var(--panel);
+  font-family:var(--font-mono); font-size:15px; color:var(--ink-2); cursor:pointer;
+}
+.sy-scale__item[aria-pressed="true"]{ border-color:var(--stamp); color:var(--ink); }
+
+.sy-toggle{
+  min-height:var(--tap-min); padding:10px 16px;
+  border:1px solid var(--rule); border-radius:var(--radius); background:var(--panel);
+  font-family:var(--font-display); font-size:15px; color:var(--ink); cursor:pointer;
+}
+.sy-toggle[aria-pressed="true"]{ border-color:var(--stamp); }
+
+/* Siatka porównawcza zdjęć - dwa kadry obok siebie, nigdy nakładka. */
+.sy-shots{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+.sy-shots__cell{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+.sy-shots__img{ width:100%; height:auto; border:1px solid var(--rule); border-radius:var(--radius); }
+.sy-shots__cap{ font-family:var(--font-mono); font-size:11px; color:var(--ink-3); }
+
+/* ── monitoring (faza 4B) ──────────────────────────────────── */
+/* Zakładki ekranu „Postęp". Podpisy, nie ikony - ikona sama w sobie jest zgadywanką. */
+.sy-tabs{
+  display:flex; gap:4px; overflow-x:auto; margin:0 0 4px;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.sy-tabs::-webkit-scrollbar{ display:none; }
+.sy-tabs__item{
+  flex:none; min-height:var(--tap-min); padding:8px 12px;
+  background:none; border:0; border-bottom:2px solid transparent;
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--ink-3); cursor:pointer; white-space:nowrap;
+}
+.sy-tabs__item[aria-current="page"]{ color:var(--ink); border-bottom-color:var(--stamp); }
+
+/* Kalendarz 90 dni. Bez „wyniku dnia": stopień wypełnienia to liczba trafionych nawyków. */
+.sy-grid90{
+  display:grid; grid-template-columns:repeat(15, 1fr); gap:3px; margin:12px 0 4px;
+}
+.sy-grid90__day{
+  aspect-ratio:1; border-radius:2px; background:var(--track);
+}
+.sy-grid90__day[data-level="1"]{ background:color-mix(in srgb, var(--stamp) 25%, var(--track)); }
+.sy-grid90__day[data-level="2"]{ background:color-mix(in srgb, var(--stamp) 50%, var(--track)); }
+.sy-grid90__day[data-level="3"]{ background:color-mix(in srgb, var(--stamp) 75%, var(--track)); }
+.sy-grid90__day[data-level="4"]{ background:var(--stamp); }
+
+/* Log bólu to jedyne miejsce poza ostrzeżeniami bezpieczeństwa, gdzie wolno użyć czerwieni. */
+.sy-pain{ border-left:3px solid var(--mark); padding-left:12px; margin-top:12px; }
+
+/* Karta-zabezpieczenie z modeli mentalnych: jedyne miejsce w wiedzy z akcentem --mark. */
+.sy-mod--mark{ border-left:3px solid var(--mark); padding-left:12px; }
+
+/* Nota modułu bywa przyciskiem („co o tym wiadomo"). Etykieta zostaje mała, ale obszar
+   dotyku rozciąga potomek do 44 px - inaczej cel ma 17 px i wypada z minimum dotykowego.
+   Ten sam zabieg co przy SourceChip w fazie 1; wyszło w audycie końcowym. */
+button.sy-mod__note{ position:relative; }
+button.sy-mod__note::after{
+  content:""; position:absolute; left:0; right:0; top:50%;
+  height:44px; transform:translateY(-50%);
+}

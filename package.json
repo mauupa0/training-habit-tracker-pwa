@@ -1,0 +1,36 @@
+{
+  "name": "system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test \"src/lib/domain/__tests__/*.test.ts\"",
+    "e2e": "node e2e.cjs",
+    "shots": "node shots.cjs",
+    "audit-regul": "node scripts/audit.ts",
+    "sprawdz": "pnpm typecheck && pnpm test && pnpm audit-regul",
+    "zrodla": "node scripts/zrodla.ts",
+    "sql": "node scripts/sql.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.2",
+    "date-fns": "^4.4.0",
+    "dexie": "^4.4.4",
+    "dexie-react-hooks": "^4.4.0",
+    "next": "15.5.23",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

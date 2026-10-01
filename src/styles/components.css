@@ -1,0 +1,232 @@
+/* ─────────────────────────────────────────────────────────────
+   Komponenty UI - wszystkie wartości pochodzą z tokens.css.
+   Żaden komponent nie zawiera własnego koloru ani kroju.
+
+   Import PO tokens.css:
+     @import './tokens.css';
+     @import './components.css';
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Stepper ───────────────────────────────────────────────── */
+.dz-stepper{ min-width:0; }
+.dz-stepper__label{
+  display:block;
+  font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--ink-3); margin-bottom:7px;
+}
+.dz-stepper__box{
+  display:flex; align-items:stretch;
+  border:1px solid var(--rule); background:var(--panel);
+}
+.dz-stepper__btn{
+  width:var(--tap-step); height:58px; flex:none;
+  background:none; border:0; padding:0;
+  color:var(--ink); font-family:var(--font-mono); font-size:22px; line-height:1;
+  cursor:pointer; touch-action:none; -webkit-user-select:none; user-select:none;
+}
+.dz-stepper__btn:first-child{ border-right:1px solid var(--rule); }
+.dz-stepper__btn:last-child{ border-left:1px solid var(--rule); }
+.dz-stepper__input{
+  flex:1; min-width:0; width:100%;
+  background:none; border:0; padding:0; text-align:center;
+  font-family:var(--font-mono); font-size:22px; font-weight:500;
+  font-variant-numeric:tabular-nums; color:var(--ink);
+}
+
+/* ── SourceChip ────────────────────────────────────────────── */
+/* Znacznik ma 26 px. Obszar dotykowy zawsze 44 px. */
+.dz-chip{
+  width:var(--tap-min); height:var(--tap-min); flex:none;
+  display:flex; align-items:center; justify-content:center;
+  margin:-9px; background:none; border:0; padding:0; cursor:pointer;
+}
+.dz-chip--labelled{
+  width:auto; margin:0; gap:8px;
+  min-height:var(--tap-min); padding:0 12px 0 0;
+  justify-content:flex-start;
+  color:var(--stamp); font-family:var(--font-mono);
+  font-size:11px; letter-spacing:.06em;
+}
+.dz-chip__mark{
+  width:26px; height:26px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--stamp); border-radius:var(--radius);
+  color:var(--stamp); font-family:var(--font-mono); font-size:11px; line-height:1;
+}
+.dz-chip--labelled .dz-chip__mark{ width:22px; height:22px; font-size:10px; }
+
+/* ── RestTimer ─────────────────────────────────────────────── */
+.dz-rest{ display:flex; align-items:center; gap:12px; }
+.dz-rest__track{
+  flex:1; height:9px; background:var(--track);
+  position:relative; overflow:hidden;
+}
+.dz-rest__fill{
+  position:absolute; top:0; bottom:0; left:0;
+  background:var(--stamp); transition:width .9s linear;
+}
+.dz-rest__value{
+  min-width:46px; text-align:right;
+  font-family:var(--font-mono); font-size:13px; font-weight:500;
+  font-variant-numeric:tabular-nums; letter-spacing:.02em; color:var(--stamp);
+}
+
+/* ── Stat ──────────────────────────────────────────────────── */
+.dz-stat__label{
+  display:block; font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--ink-3); margin-bottom:6px;
+}
+.dz-stat__row{ display:flex; align-items:baseline; gap:10px; }
+.dz-stat__value{
+  font-family:var(--font-display); font-weight:800;
+  font-size:2.7rem; line-height:1; letter-spacing:-.035em;
+}
+.dz-stat--hero .dz-stat__value{ font-size:44px; }
+.dz-stat__unit{ font-family:var(--font-mono); font-size:14px; color:var(--ink-2); }
+
+/* ── DataTable ─────────────────────────────────────────────── */
+.dz-table__wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.dz-table{ border-collapse:collapse; width:100%; }
+.dz-table th{
+  font-family:var(--font-mono); font-size:9.5px; font-weight:500;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--ink-2);
+  text-align:left; white-space:nowrap;
+  padding:0 12px 8px 0; border-bottom:1.5px solid var(--ink);
+}
+.dz-table td{
+  padding:9px 12px 9px 0; border-bottom:1px solid var(--rule);
+  vertical-align:top;
+  font-family:var(--font-mono); font-size:12px; color:var(--ink-2);
+}
+.dz-table th:last-child, .dz-table td:last-child{ padding-right:0; }
+.dz-table td.is-num{
+  font-size:12.5px; color:var(--stamp);
+  font-variant-numeric:tabular-nums; white-space:nowrap;
+}
+
+/* ── Sheet ─────────────────────────────────────────────────── */
+.dz-sheet{
+  position:fixed; inset:0; z-index:90;
+  display:flex; flex-direction:column; justify-content:flex-end;
+}
+.dz-sheet__scrim{ position:absolute; inset:0; background:rgba(20,33,43,.42); }
+.dz-sheet__panel{
+  position:relative; background:var(--panel);
+  border-top:2px solid var(--ink);
+  padding:20px 20px calc(env(safe-area-inset-bottom, 0px) + 44px);
+  max-height:76%; overflow-y:auto;
+  animation:dz-sheet-up var(--dur-sheet) var(--ease);
+}
+@keyframes dz-sheet-up{ from{ transform:translateY(100%); } to{ transform:translateY(0); } }
+.dz-sheet__head{
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:14px; margin-bottom:12px;
+}
+.dz-sheet__title{
+  margin:0; font-family:var(--font-display); font-weight:600;
+  font-size:19px; line-height:1.25; letter-spacing:-.02em;
+}
+.dz-sheet__close{
+  width:var(--tap-min); height:var(--tap-min); flex:none;
+  margin:-10px -12px 0 0; background:none; border:0; padding:0;
+  color:var(--ink-2); font-family:var(--font-mono); font-size:16px; cursor:pointer;
+}
+.dz-sheet__panel p{
+  margin:0 0 11px; font-size:15.5px; line-height:1.6; color:var(--ink-2);
+}
+.dz-sheet__meta{
+  font-family:var(--font-mono); font-size:11px;
+  line-height:1.6; letter-spacing:.02em; color:var(--ink-3);
+}
+.dz-sheet__option{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  width:100%; min-height:var(--tap-step); margin-top:10px; padding:0 16px;
+  text-align:left; background:var(--paper);
+  border:1px solid var(--rule); border-radius:var(--radius);
+  color:var(--ink); font-family:var(--font-mono); font-size:13px; cursor:pointer;
+}
+
+/* ── Chart ─────────────────────────────────────────────────── */
+.dz-chart{ display:block; width:100%; height:auto; }
+.dz-chart__axis{ stroke:var(--rule); stroke-width:1; }
+.dz-chart__grid{ stroke:var(--rule); stroke-width:1; stroke-dasharray:2 4; opacity:.7; }
+.dz-chart__line{
+  fill:none; stroke:var(--stamp); stroke-width:2.6;
+  stroke-linejoin:round; stroke-linecap:round;
+}
+.dz-chart__line--pess{ stroke:var(--ink-3); stroke-width:1.6; stroke-dasharray:5 4; }
+.dz-chart__line--opt{ stroke:var(--ink-3); stroke-width:1.6; stroke-dasharray:1 4; }
+.dz-chart__band{ fill:var(--band); }
+.dz-chart__label{ font-family:var(--font-mono); font-size:9.5px; fill:var(--ink-3); }
+.dz-chart__anno{ font-family:var(--font-mono); font-size:9.5px; fill:var(--mark); }
+
+/* ── Correction ────────────────────────────────────────────── */
+.dz-correction{ border:1px solid var(--mark); background:var(--hazard); padding:14px 16px; }
+.dz-correction__label{
+  display:block; font-family:var(--font-mono); font-size:9.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--mark); margin-bottom:8px;
+}
+.dz-correction__body{ margin:0; font-size:15.5px; line-height:1.5; }
+.dz-correction__was{
+  text-decoration:line-through;
+  text-decoration-color:var(--mark); text-decoration-thickness:1.5px;
+  color:var(--ink-3);
+}
+.dz-correction__now{ color:var(--mark); font-weight:600; }
+.dz-correction__reason{
+  margin:6px 0 0; font-family:var(--font-mono); font-size:11px;
+  line-height:1.5; color:var(--ink-2);
+}
+
+/* ── EmptyState ────────────────────────────────────────────── */
+.dz-empty{
+  border-left:3px solid var(--ink-3); padding:2px 0 2px 16px; color:var(--ink-2);
+}
+.dz-empty p{ margin:0; }
+
+/* ── SyncDot ───────────────────────────────────────────────── */
+.dz-sync{ width:8px; height:8px; flex:none; border-radius:50%; background:var(--stamp); }
+.dz-sync--queued{ background:none; border:1.5px solid var(--ink-3); }
+
+/* ── mikro-interakcje ──────────────────────────────────────────
+   Ruch jest tu narzędziem informacji zwrotnej, nie ozdobą: element ma potwierdzić
+   dotknięcie i pokazać, że wartość się zmieniła. Świadomie NIE animujemy rekordów
+   ani niczego, co dałoby się odczytać jako świętowanie (faza 4B, sekcja 8).
+   Całość gaśnie przy `prefers-reduced-motion: reduce` - globalna reguła w tokens.css. */
+
+.sy-btn, .sy-save, .sy-tile, .sy-toggle, .sy-scale__item, .sy-module, .sy-choice,
+.dz-stepper__btn, .sy-tabs__item, .sy-nav__item {
+  transition:
+    transform 120ms var(--ease),
+    background-color var(--dur-fade) var(--ease),
+    border-color var(--dur-fade) var(--ease),
+    color var(--dur-fade) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Wciśnięcie: ledwo widoczne, ale wyczuwalne - na telefonie zastępuje brak kursora. */
+.sy-btn:active, .sy-save:active, .sy-tile:active, .sy-toggle:active,
+.sy-scale__item:active, .sy-choice:active, .dz-stepper__btn:active {
+  transform: scale(.985);
+}
+.sy-save:active { transform: scale(.99); }
+
+/* Pasek dnia (białko, kalorie, etap pomiaru) - wartość dojeżdża, zamiast przeskakiwać. */
+.sy-bar__fill { transition: width 420ms var(--ease); }
+
+/* Wejście ekranu. 180 ms i 4 px: tyle, żeby przejście między zakładkami nie było
+   cięciem, i za mało, żeby dało się na to czekać. */
+@keyframes sy-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+.sy-screen { animation: sy-enter 180ms var(--ease); }
+
+/* Arkusz i jego tło wchodzą razem - samo tło pojawiające się natychmiast wygląda jak błysk. */
+.dz-sheet__scrim { animation: sy-fade var(--dur-sheet) var(--ease); }
+@keyframes sy-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Zdjęcia postępu pojawiają się miękko: podpisany adres wraca z opóźnieniem sieci. */
+.sy-shots__img { animation: sy-fade 220ms var(--ease); }

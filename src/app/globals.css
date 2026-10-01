@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/components.css";
+@import "../styles/screens.css";
+
+/* tokens.css i components.css stoją poza warstwami, więc wygrywają z preflightem
+   Tailwinda. Tailwind zostaje tu wyłącznie do układu (flex, gap, odstępy) -
+   kolory, kroje i geometria idą z tokenów. */
+@layer base {
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* poniżej 16px iOS zoomuje stronę przy wejściu w pole */
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1rem);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+
+/* Odstępstwo od handoffu: .dz-chip ma tam `display:flex`, co zakłada chip
+   w kontenerze flex obok liczby. U nas liczby siedzą w zdaniach, więc chip
+   musi być elementem wierszowym - inaczej łamie linię i siada nierówno.
+   Rozmiar i obszar dotyku zostają bez zmian. */
+.dz-chip:not(.dz-chip--labelled) {
+  display: inline-flex;
+  vertical-align: middle;
+  /* Handoff daje margin:-9px z każdej strony, żeby obszar dotyku 44 px nie
+     rozpychał układu. W zdaniu ujemny margines po LEWEJ wsuwa znak pod ostatnią
+     literę - na zrzucie „3 minuty" chip siedział na „y". Zdejmujemy tylko lewy:
+     zostaje 9 px oddechu od tekstu, a linia nadal się nie rozpycha. */
+  margin-block: -9px;
+  margin-inline: 0 -9px;
+}

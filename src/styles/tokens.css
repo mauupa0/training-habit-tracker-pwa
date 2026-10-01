@@ -1,0 +1,132 @@
+/* ─────────────────────────────────────────────────────────────
+   Dziennik treningowy - design tokens
+   Motyw jasny = papier. Motyw ciemny = blueprint: jasne linie
+   na granatowym tuszu.
+
+   Odstępstwo od pierwotnej specyfikacji:
+   --ink-3 zmieniony w OBU motywach, bo nosi etykiety 10-11 px.
+   jasny  #7A8F9C -> #52697A  (2,68:1 na papierze nie przechodzi AA)
+   ciemny #728693 -> #7A8F9C  (4,16:1 na panelu nie przechodzi AA)
+   ───────────────────────────────────────────────────────────── */
+
+:root{
+  color-scheme: light dark;
+
+  /* powierzchnie */
+  --paper:  #E2E7DE;              /* tło, papier w kratkę */
+  --panel:  #EDF0E9;              /* karty, wyróżnione bloki */
+  --grid:   rgba(169,189,201,.30); /* siatka 22 × 22 px */
+  --rule:   rgba(20,33,43,.16);    /* linie, obramowania, osie */
+  --track:  rgba(20,33,43,.07);    /* ścieżki pasków postępu */
+
+  /* tusz */
+  --ink:    #14212B;   /* tekst główny        · 12,4:1 na --paper */
+  --ink-2:  #47606F;   /* tekst drugorzędny   ·  5,3:1 */
+  --ink-3:  #52697A;   /* etykiety, osie      ·  4,6:1 na --paper · 5,0:1 na --panel */
+
+  /* akcenty - używane oszczędnie */
+  --stamp:  #1F4B5C;   /* dane, wykresy, liczby ·  7,5:1 */
+  --mark:   #A82F26;   /* WYŁĄCZNIE korekty i bezpieczeństwo · 5,4:1 */
+  --on-ink: #E2E7DE;   /* tekst na ciemnym tle */
+
+  /* pochodne akcentów */
+  --band:   rgba(31,75,92,.13);   /* pasmo pod linią wykresu */
+  --hazard: rgba(168,47,38,.06);  /* tło bloku korekty */
+  --chip:   rgba(20,33,43,.10);
+
+  /* typografia
+     Kroje ładuje next/font i nadaje im własne, hashowane nazwy rodzin, dostępne
+     tylko przez zmienne --font-bricolage / --font-newsreader / --font-jetbrains.
+     Nazwy z oryginalnego handoffu zostają jako zapasowe, gdyby fonty ładowano inaczej.
+     Klasy next/font MUSZĄ siedzieć na <html>: te zmienne są tu czytane w :root. */
+  --font-display: var(--font-bricolage), 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body:    var(--font-newsreader), 'Newsreader', Georgia, serif;
+  --font-mono:    var(--font-jetbrains), 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-base: 17.5px;   /* proza */
+  --text-min:  14px;     /* bezwzględne minimum dla treści */
+  --leading-prose: 1.6;
+  --leading-data:  1.3;
+
+  /* dotyk */
+  --tap-min:  44px;   /* każdy cel dotykowy */
+  --tap-step: 56px;   /* przyciski + / − , pozycja nawigacji */
+  --tap-primary: 64px;/* ZAPISZ SERIĘ, ZACZNIJ SESJĘ */
+
+  /* geometria */
+  --radius: 2px;      /* prawie kanciaste - to notatnik, nie karta bankowa */
+  --grid-size: 22px;
+
+  /* ruch - jedyne dozwolone czasy */
+  --dur-sheet: 200ms;
+  --dur-fade:  150ms;
+  --ease: cubic-bezier(.2,.8,.25,1);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:  #12191F;
+    --panel:  #1A242C;
+    --grid:   rgba(125,158,175,.15);
+    --rule:   rgba(222,229,226,.16);
+    --track:  rgba(222,229,226,.09);
+
+    --ink:    #DEE5E2;   /* 15,3:1 na --paper */
+    --ink-2:  #A2B5C0;   /*  9,0:1 */
+    --ink-3:  #7A8F9C;   /*  5,3:1 na --paper · 4,7:1 na --panel */
+
+    --stamp:  #67B0C6;   /*  7,3:1 */
+    --mark:   #E2705F;   /*  5,7:1 */
+    --on-ink: #12191F;
+
+    --band:   rgba(103,176,198,.15);
+    --hazard: rgba(226,112,95,.08);
+    --chip:   rgba(222,229,226,.12);
+  }
+}
+
+/* ── podstawa dokumentu ────────────────────────────────────── */
+
+html{ -webkit-text-size-adjust:100%; background:var(--paper); }
+
+body{
+  margin:0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right,  var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-prose);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reguła bezwzględna: wszystkie dane liczbowe w monospace. */
+.num, .mono, time, output{
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-data);
+}
+
+:focus-visible{ outline:2px solid var(--mark); outline-offset:3px; }
+::selection{ background:var(--mark); color:var(--on-ink); }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation:none !important; transition:none !important; }
+  /* wyjątek: pasek timera przerwy - to odczyt danych, nie ozdoba.
+     Klasa musi zgadzać się z komponentem (dz-rest__fill); wcześniejsza
+     nazwa .rest-timer__fill nie istniała nigdzie w kodzie, więc reguła
+     po cichu nic nie robiła i przy reduced-motion pasek zamierał. */
+  .dz-rest__fill{ transition: width .9s linear !important; }
+}
+
+/* ── wymagane w <head> ─────────────────────────────────────────
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E2E7DE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12191F" media="(prefers-color-scheme: dark)">
+
+Bez tego iOS wymusi własne przyciemnienie i tekst zniknie.
+───────────────────────────────────────────────────────────── */
